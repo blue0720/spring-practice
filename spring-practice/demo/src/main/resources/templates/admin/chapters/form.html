@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>章編集 | 忘却の取引</title>
+</head>
+<body>
+    <h1 th:text="${chapterForm.id} != null ? '章編集' : '章新規作成'"></h1>
+    <form th:action="${chapterForm.id} != null ? @{/admin/chapters/{id}(id=${chapterForm.id})} : @{/admin/chapters}"
+          th:object="${chapterForm}" method="post">
+        <div>
+            <label>章番号 <input type="number" th:field="*{number}"></label>
+            <p th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></p>
+        </div>
+        <div>
+            <label>タイトル <input type="text" th:field="*{title}"></label>
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
+        <div>
+            <label>説明 <textarea th:field="*{description}"></textarea></label>
+        </div>
+        <button type="submit">保存</button>
+    </form>
+    <p><a th:href="@{/admin/chapters}">一覧に戻る</a></p>
+</body>
+</html>

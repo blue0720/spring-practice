@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>記憶断片編集 | 忘却の取引</title>
+</head>
+<body>
+    <h1 th:text="${memoryFragmentForm.id} != null ? '記憶断片編集' : '記憶断片新規作成'"></h1>
+    <form th:action="${memoryFragmentForm.id} != null ? @{/admin/memories/{id}(id=${memoryFragmentForm.id})} : @{/admin/memories}"
+          th:object="${memoryFragmentForm}" method="post">
+        <div>
+            <label>感情タグ
+                <select th:field="*{tag}">
+                    <option value="">(選択してください)</option>
+                    <option th:each="tag : ${T(com.example.demo.entity.EmotionTag).values()}" th:value="${tag}" th:text="${tag}"></option>
+                </select>
+            </label>
+            <p th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}"></p>
+        </div>
+        <div>
+            <label>タイトル <input type="text" th:field="*{title}"></label>
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        </div>
+        <button type="submit">保存</button>
+    </form>
+    <p><a th:href="@{/admin/memories}">一覧に戻る</a></p>
+</body>
+</html>

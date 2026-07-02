@@ -16,7 +16,7 @@
 | 03 | [Spring Securityによる会員機能](03_spring-security-auth.md) | 完了 |
 | 04 | [ゲーム画面へのMVPロジック移植](04_game-screen-mvp-port.md) | 完了 |
 | 05 | [進行状況の保存・読込API](05_progress-save-api.md) | 完了 |
-| 06 | [管理者機能(コンテンツCRUD)](06_admin-content-crud.md) | 未着手 |
+| 06 | [管理者機能(コンテンツCRUD)](06_admin-content-crud.md) | 完了 |
 | 07 | [第1〜3章コンテンツ投入](07_content-seeding.md) | 未着手 |
 | 08 | [AWS EC2デプロイ](08_deploy-aws-ec2.md) | 未着手 |
 | 09 | [通し確認・仕上げ](09_polish-and-review.md) | 未着手 |

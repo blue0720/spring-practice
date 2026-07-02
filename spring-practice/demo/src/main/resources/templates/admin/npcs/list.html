@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>NPC管理 | 忘却の取引</title>
+</head>
+<body>
+    <h1>NPC管理</h1>
+    <p><a th:href="@{/admin}">管理画面トップ</a></p>
+    <p><a th:href="@{/admin/npcs/new}">新規作成</a></p>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>名前</th>
+            <th>役割</th>
+            <th>弱点タグ</th>
+            <th>苦手タグ</th>
+            <th>所属章</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="npc : ${npcs}">
+            <td th:text="${npc.name}"></td>
+            <td th:text="${npc.role}"></td>
+            <td th:text="${npc.weakTag}"></td>
+            <td th:text="${npc.hateTag}"></td>
+            <td th:text="${npc.chapterTitle}"></td>
+            <td>
+                <a th:href="@{/admin/npcs/{id}/edit(id=${npc.id})}">編集</a>
+                <form th:action="@{/admin/npcs/{id}/delete(id=${npc.id})}" method="post" style="display:inline">
+                    <button type="submit" onclick="return confirm('削除しますか?');">削除</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

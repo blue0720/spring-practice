@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>章管理 | 忘却の取引</title>
+</head>
+<body>
+    <h1>章管理</h1>
+    <p><a th:href="@{/admin}">管理画面トップ</a></p>
+    <p><a th:href="@{/admin/chapters/new}">新規作成</a></p>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>番号</th>
+            <th>タイトル</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="chapter : ${chapters}">
+            <td th:text="${chapter.number}"></td>
+            <td th:text="${chapter.title}"></td>
+            <td>
+                <a th:href="@{/admin/chapters/{id}/edit(id=${chapter.id})}">編集</a>
+                <form th:action="@{/admin/chapters/{id}/delete(id=${chapter.id})}" method="post" style="display:inline">
+                    <button type="submit" onclick="return confirm('削除しますか?');">削除</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>
