@@ -39,7 +39,7 @@ class AdminNpcControllerTest {
     void createNpc_savesOnlyNonBlankReactionLines() throws Exception {
         mockMvc.perform(post("/admin/npcs")
                         .with(csrf())
-                        .param("name", "ノラ")
+                        .param("name", "検証用テストNPC")
                         .param("weakTag", "安心")
                         .param("hateTag", "恐怖")
                         .param("reactionLines[0].type", "GOOD")
@@ -49,7 +49,7 @@ class AdminNpcControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/npcs"));
 
-        Npc saved = npcRepository.findByName("ノラ").orElseThrow();
+        Npc saved = npcRepository.findByName("検証用テストNPC").orElseThrow();
         List<NpcReactionLine> lines = npcReactionLineRepository.findByNpcId(saved.getId());
         assertEquals(1, lines.size());
         assertEquals("ありがとう", lines.get(0).getText());

@@ -35,18 +35,18 @@ class AdminChapterControllerTest {
     void createEditDeleteChapter() throws Exception {
         mockMvc.perform(post("/admin/chapters")
                         .with(csrf())
-                        .param("number", "1")
+                        .param("number", "99")
                         .param("title", "第一章 灰塵市")
                         .param("description", "序章"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/chapters"));
 
-        Chapter saved = chapterRepository.findByNumber(1).orElseThrow();
+        Chapter saved = chapterRepository.findByNumber(99).orElseThrow();
         assertEquals("第一章 灰塵市", saved.getTitle());
 
         mockMvc.perform(post("/admin/chapters/" + saved.getId())
                         .with(csrf())
-                        .param("number", "1")
+                        .param("number", "99")
                         .param("title", "第一章 灰塵市(改)")
                         .param("description", "序章(改)"))
                 .andExpect(status().is3xxRedirection())
@@ -66,7 +66,7 @@ class AdminChapterControllerTest {
     void createChapter_withoutTitle_rendersFormWithErrors() throws Exception {
         mockMvc.perform(post("/admin/chapters")
                         .with(csrf())
-                        .param("number", "1"))
+                        .param("number", "99"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/chapters/form"))
                 .andExpect(model().attributeHasFieldErrors("chapterForm", "title"));
