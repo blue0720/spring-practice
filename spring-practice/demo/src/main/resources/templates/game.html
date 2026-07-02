@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>忘却の取引</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" th:href="@{/css/dq.css}">
     <link rel="stylesheet" th:href="@{/css/game.css}">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
@@ -24,6 +25,7 @@
     <!-- タイトル画面 -->
     <section id="screen-title" class="screen">
         <h1>忘却の取引</h1>
+        <div id="title-hero" class="title-hero"></div>
         <p>記憶を売買する商人ヴィオラの物語。</p>
         <button type="button" id="btn-start">はじめる</button>
     </section>
@@ -52,19 +54,29 @@
         <button type="button" id="btn-dialogue-back">マップに戻る</button>
     </section>
 
-    <!-- 交渉パズル画面 -->
+    <!-- 交渉パズル画面(DQ風フロントビュー戦闘) -->
     <section id="screen-negotiation" class="screen">
-        <h2 id="negotiation-npc-name"></h2>
-        <div class="gauge-track">
-            <div id="gauge-fill" class="gauge-fill"></div>
+        <div class="battle-stage">
+            <div class="enemy-status">
+                <span id="negotiation-npc-name" class="enemy-name"></span>
+                <div class="gauge-track">
+                    <div id="gauge-fill" class="gauge-fill"></div>
+                </div>
+                <div class="gauge-label">
+                    <span>しんらいど</span>
+                    <span><span id="gauge-value"></span> / 100</span>
+                </div>
+            </div>
+            <div id="enemy-sprite" class="enemy-sprite"></div>
         </div>
-        <div class="gauge-label">
-            <span>信頼度</span>
-            <span><span id="gauge-value"></span> / 100</span>
-        </div>
+
         <div id="negotiation-log" class="negotiation-log"></div>
-        <div id="fragment-hand" class="fragment-hand"></div>
-        <button type="button" id="btn-negotiation-end">ここで交渉を終える</button>
+
+        <div class="battle-command">
+            <p class="command-caption">▶ さしだす きおくを えらべ</p>
+            <div id="fragment-hand" class="fragment-hand"></div>
+            <button type="button" id="btn-negotiation-end">たちさる</button>
+        </div>
     </section>
 
     <!-- 結果画面 -->
@@ -85,6 +97,7 @@
 
 </div>
 <script th:src="@{/js/game-data.js}"></script>
+<script th:src="@{/js/sprites.js}"></script>
 <script th:src="@{/js/game.js}"></script>
 </body>
 </html>

@@ -18,8 +18,8 @@ MCPサーバーを `mcp-server/` に構築する。MySQL(`wakyaku_dev`)に直接
 - [〇] 読み取り専用ツール(`list_users` / `list_game_progress` / `list_completed_encounters`)
 - [〇] ビルド確認・stdio経由での初期化/ツール一覧/CRUD呼び出しの動作確認
 - [〇] README作成(セットアップ手順、Claude Codeへの登録方法、スコープ注意事項)
-- [ ] `claude mcp add` で実際にClaude Codeへ登録し、対話から操作できることを確認(ユーザー作業)
-- [ ] フェーズ1でJPAエンティティを実装する際、`app_user` テーブル名との整合を確認
+- [〇] `claude mcp add` で実際にClaude Codeへ登録し、対話から操作できることを確認(ユーザー作業)
+- [〇] フェーズ1でJPAエンティティを実装する際、`app_user` テーブル名との整合を確認
 
 ## 参照
 - `docs/02_jpa-entities.md`(テーブル設計の一致元)

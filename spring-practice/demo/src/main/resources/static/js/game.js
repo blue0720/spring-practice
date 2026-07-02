@@ -131,11 +131,11 @@
         cell.className = 'field-cell';
         if (x === district.field.npcPos.x && y === district.field.npcPos.y) {
           cell.classList.add('field-cell-npc');
-          cell.textContent = district.npc.name;
+          cell.innerHTML = SPRITES.render(district.npc.type);
         }
         if (x === state.fieldPos.x && y === state.fieldPos.y) {
           cell.classList.add('field-cell-player');
-          cell.textContent = 'あなた';
+          cell.innerHTML = SPRITES.render('viola');
         }
         grid.appendChild(cell);
       }
@@ -195,6 +195,8 @@
 
     showScreen('screen-negotiation');
     $('negotiation-npc-name').textContent = district.npc.name;
+    $('enemy-sprite').innerHTML = SPRITES.render(district.npc.type);
+    $('enemy-sprite').className = 'enemy-sprite';
     renderGauge();
     renderFragmentHand();
     renderNegotiationLog();
@@ -246,6 +248,7 @@
     state.negotiationLog.push('『' + fragment.title + '』を差し出した。');
     state.negotiationLog.push(district.npc.name + '「' + reaction + '」');
 
+    flashEnemy(category);
     renderGauge();
     renderFragmentHand();
     renderNegotiationLog();
@@ -253,6 +256,18 @@
     if (state.gauge >= GAUGE_MAX || state.gauge <= GAUGE_MIN || state.usedTags.size >= MEMORY_FRAGMENTS.length) {
       endNegotiation();
     }
+  }
+
+  // 記憶を差し出したときの敵リアクション(DQ風の点滅・のけぞり)
+  function flashEnemy(category) {
+    const sprite = $('enemy-sprite');
+    if (!sprite) return;
+    const cls = 'is-hit-' + category; // good / bad / neutral
+    sprite.classList.remove('is-hit-good', 'is-hit-bad', 'is-hit-neutral');
+    // リフローを挟んでアニメーションを確実に再生させる
+    void sprite.offsetWidth;
+    sprite.classList.add(cls);
+    setTimeout(function () { sprite.classList.remove(cls); }, 480);
   }
 
   function endNegotiation() {
@@ -327,6 +342,8 @@
     initMapButtons();
     initEndingButtons();
     initLogoutConfirm();
+    const titleHero = $('title-hero');
+    if (titleHero) titleHero.innerHTML = SPRITES.render('viola');
     showScreen('screen-title');
     loadProgress();
   });

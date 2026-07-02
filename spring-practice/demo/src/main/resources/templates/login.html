@@ -2,22 +2,28 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ログイン | 忘却の取引</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" th:href="@{/css/dq.css}">
 </head>
 <body>
-    <h1>ログイン</h1>
-    <p th:if="${param.error}">ユーザー名またはパスワードが違います。</p>
-    <p th:if="${param.logout}">ログアウトしました。</p>
-    <p th:if="${param.registered}">登録が完了しました。ログインしてください。</p>
-    <form th:action="@{/login}" method="post">
-        <div>
-            <label>ユーザー名 <input type="text" name="username"></label>
+<div class="dq-page">
+    <div class="dq-panel">
+        <h1>忘却の取引</h1>
+        <div class="dq-window">
+            <p class="dq-msg is-error" th:if="${param.error}">ユーザー名またはパスワードが違います。</p>
+            <p class="dq-msg" th:if="${param.logout}">ログアウトしました。</p>
+            <p class="dq-msg" th:if="${param.registered}">登録が完了しました。ログインしてください。</p>
+            <form th:action="@{/login}" method="post">
+                <label>ユーザー名 <input type="text" name="username"></label>
+                <label>パスワード <input type="password" name="password"></label>
+                <button type="submit">ぼうけんのしょをひらく</button>
+            </form>
         </div>
-        <div>
-            <label>パスワード <input type="password" name="password"></label>
-        </div>
-        <button type="submit">ログイン</button>
-    </form>
-    <p><a th:href="@{/register}">新規登録はこちら</a></p>
+        <p class="dq-links"><a th:href="@{/register}">▶ あたらしいぼうけんのしょ(新規登録)</a></p>
+    </div>
+</div>
 </body>
 </html>

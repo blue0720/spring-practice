@@ -1,236 +1,490 @@
-:root {
-  --ink-black: #12131c;
-  --parchment: #e8dcc0;
-  --gold: #c9a227;
-  --crimson: #8b3a3a;
-  --muted-green: #52836f;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body.game-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--ink-black);
-  color: var(--parchment);
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-}
+/* ============================================================
+   game.css — 『忘却の取引』ゲーム画面のDQ風スタイル
+   土台は dq.css。ここでは各画面(タイトル/マップ/フィールド/
+   会話/交渉/結果/エンディング)の見た目だけを定義する。
+   ※ JSが参照するID・クラス名は変更しないこと。
+   ============================================================ */
 
 .game-container {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 24px 16px 48px;
+  padding: 16px 16px 56px;
 }
 
-h1, h2, h3 {
-  font-family: 'Shippori Mincho', serif;
-  color: var(--gold);
+/* ---------- ヘッダー(ログイン情報・ログアウト) ---------- */
+.game-container > header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--dq-text-dim);
+  margin-bottom: 12px;
 }
-
-.screen {
-  display: none;
+.game-container > header p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
 }
+.game-container > header button {
+  padding: 4px 12px 4px 12px;
+  font-size: 0.72rem;
+  border-width: 2px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px #000;
+}
+.game-container > header button::before { content: none; }
 
+/* ---------- 画面の切り替え ---------- */
+.screen { display: none; }
 .screen.is-active {
   display: block;
+  animation: dq-screen-in 0.18s ease-out;
+}
+@keyframes dq-screen-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-button {
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  cursor: pointer;
-  background: var(--ink-black);
-  color: var(--parchment);
-  border: 1px solid var(--gold);
-  border-radius: 4px;
-  padding: 8px 16px;
+/* 各画面のブロックにDQウィンドウ枠を与える共通見た目 */
+#screen-map,
+#screen-field,
+#screen-dialogue,
+#screen-result,
+#screen-ending {
+  background: var(--dq-window);
+  border: 4px solid var(--dq-frame);
+  border-radius: 14px;
+  padding: 20px 22px 24px;
+  box-shadow: inset 0 0 0 2px #000, 0 0 0 3px #000, 0 8px 0 rgba(0,0,0,0.55);
 }
 
-button:hover:not(:disabled) {
-  background: var(--gold);
-  color: var(--ink-black);
+.screen h2 {
+  font-size: 1.15rem;
+  padding-bottom: 8px;
+  border-bottom: 2px dotted rgba(255, 255, 255, 0.35);
 }
 
-button:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-/* タイトル画面 */
+/* ============================================================
+   タイトル画面 — DQロゴ調のエンボス文字
+   ============================================================ */
 #screen-title {
   text-align: center;
-  padding-top: 20vh;
+  padding-top: 16vh;
 }
 
 #screen-title h1 {
-  font-size: 2.2rem;
-  letter-spacing: 0.1em;
+  font-size: 2.8rem;
+  letter-spacing: 0.14em;
+  color: #ffe14d;
+  line-height: 1.25;
+  text-shadow:
+    3px 3px 0 #7a5a00,
+    5px 5px 0 #3a2a00,
+    0 0 18px rgba(255, 225, 77, 0.4);
 }
 
-/* マップ画面 */
+.title-hero {
+  width: 128px;
+  height: 128px;
+  margin: 26px auto 8px;
+  animation: dq-idle 2.4s ease-in-out infinite;
+}
+.title-hero .pixel-sprite {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(2px 3px 0 rgba(0, 0, 0, 0.6));
+}
+
+#screen-title > p {
+  color: var(--dq-text-dim);
+  margin: 12px 0 32px;
+  animation: dq-blink 1.6s steps(1, end) infinite;
+}
+
+#btn-start {
+  font-size: 1.15rem;
+  padding: 14px 40px 14px 52px;
+}
+
+/* ============================================================
+   マップ画面 — 区画選択はコマンドメニュー
+   ============================================================ */
 .district-list {
   display: grid;
   gap: 12px;
-  margin: 16px 0;
+  margin: 18px 0;
 }
 
 .district-card {
-  text-align: left;
-  padding: 16px;
-  background: rgba(232, 220, 192, 0.05);
+  width: 100%;
+  padding: 14px 16px 14px 40px;
 }
-
 .district-card h3 {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
+  font-size: 1rem;
+  color: var(--dq-text);
+  text-shadow: 1px 1px 0 #000;
+}
+.district-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--dq-text-dim);
 }
 
 .cleared-mark {
-  color: var(--muted-green);
-  font-size: 0.8rem;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  font-size: 0.7rem;
+  color: #04140a;
+  background: var(--dq-hp);
+  border-radius: 4px;
+  text-shadow: none;
 }
 
-/* フィールド画面 */
+#btn-goto-ending {
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+  color: var(--dq-cursor);
+  border-color: var(--dq-cursor);
+}
+
+/* ============================================================
+   フィールド画面 — DQのタイルマップ風
+   ============================================================ */
 .field-hint {
-  color: var(--parchment);
-  opacity: 0.7;
-  font-size: 0.85rem;
+  color: var(--dq-text-dim);
+  font-size: 0.8rem;
+  margin: 4px 0 14px;
 }
 
 .field-grid {
   display: grid;
-  gap: 2px;
-  margin: 16px 0;
-  background: #000;
-  padding: 2px;
+  gap: 3px;
+  margin: 8px auto 0;
+  padding: 6px;
+  background: #01020a;
+  border: 3px solid var(--dq-frame);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px #000;
+  max-width: 480px;
 }
 
 .field-cell {
   aspect-ratio: 1 / 1;
-  background: rgba(232, 220, 192, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.65rem;
-  font-family: monospace;
-  color: var(--parchment);
+  font-size: 0.55rem;
+  line-height: 1.1;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.28);
+  /* 草原タイル調のチェック模様 */
+  background:
+    repeating-conic-gradient(#16351f 0% 25%, #1c4227 0% 50%) 0 / 14px 14px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.field-cell .pixel-sprite {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.6));
 }
 
 .field-cell-npc {
-  background: rgba(139, 58, 58, 0.5);
-  color: var(--parchment);
+  box-shadow: inset 0 0 0 2px var(--dq-danger);
+  animation: dq-tile-pulse 1.2s ease-in-out infinite;
+}
+@keyframes dq-tile-pulse {
+  0%, 100% { box-shadow: inset 0 0 0 2px var(--dq-danger); }
+  50%      { box-shadow: inset 0 0 0 2px rgba(255, 84, 112, 0.35); }
 }
 
 .field-cell-player {
-  background: var(--gold);
-  color: var(--ink-black);
-  font-weight: bold;
+  box-shadow: inset 0 0 0 2px var(--dq-cursor);
 }
 
-/* 会話画面 */
+/* ============================================================
+   会話画面 — メッセージウィンドウ + ▼送り三角
+   ============================================================ */
+#dialogue-npc-name {
+  color: var(--dq-cursor);
+}
+
 .dialogue-box {
-  border: 1px solid var(--gold);
-  padding: 16px;
-  margin: 16px 0;
-  background: rgba(232, 220, 192, 0.05);
+  position: relative;
+  min-height: 96px;
+  border: 3px solid var(--dq-frame);
+  border-radius: 10px;
+  padding: 16px 18px 26px;
+  margin: 14px 0 18px;
+  background: #02030f;
+  box-shadow: inset 0 0 0 2px #000;
+}
+.dialogue-box::after {
+  content: '▼';
+  position: absolute;
+  right: 14px;
+  bottom: 8px;
+  color: var(--dq-cursor);
+  animation: dq-blink 0.9s steps(1, end) infinite;
+}
+.dialogue-box p { margin: 0; }
+
+#screen-dialogue button { margin: 0 10px 0 0; }
+
+/* ============================================================
+   交渉パズル画面 — DQ風フロントビュー戦闘
+   ============================================================ */
+
+/* 敵の立つ舞台。奥に紺の空、手前に暗い床のグラデ。 */
+.battle-stage {
+  position: relative;
+  min-height: 260px;
+  margin-bottom: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  border: 4px solid var(--dq-frame);
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at 50% 120%, rgba(255,255,255,0.06), transparent 60%),
+    linear-gradient(#0a0d2e 0%, #0a0d2e 62%, #131a3f 62%, #060814 100%);
+  box-shadow: inset 0 0 0 2px #000, 0 0 0 3px #000, 0 8px 0 rgba(0,0,0,0.55);
+  overflow: hidden;
 }
 
-/* 交渉パズル画面 */
+/* 敵ステータス窓(名前 + しんらいどバー)を左上に配置 */
+.enemy-status {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 8px 12px;
+  background: rgba(2, 3, 15, 0.85);
+  border: 3px solid var(--dq-frame);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px #000;
+}
+.enemy-name {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: var(--dq-cursor);
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* 敵スプライト:大きく中央に。ゆらぎ + 接地影。 */
+.enemy-sprite {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  margin-bottom: 6px;
+  animation: dq-idle 2.4s ease-in-out infinite;
+}
+.enemy-sprite::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 120px;
+  height: 18px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(0,0,0,0.55), transparent 70%);
+}
+.enemy-sprite .pixel-sprite {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(2px 3px 0 rgba(0,0,0,0.6));
+}
+
+@keyframes dq-idle {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* 記憶を差し出したときの敵リアクション */
+.enemy-sprite.is-hit-good  { animation: dq-hit-good 0.48s ease; }
+.enemy-sprite.is-hit-bad   { animation: dq-hit-bad 0.48s ease; }
+.enemy-sprite.is-hit-neutral { animation: dq-hit-neutral 0.48s ease; }
+
+@keyframes dq-hit-good {
+  0%, 100% { transform: translateY(0); filter: none; }
+  30%      { transform: translateY(-10px) scale(1.05); filter: brightness(1.8) drop-shadow(0 0 10px var(--dq-hp)); }
+}
+@keyframes dq-hit-bad {
+  0%, 100% { transform: translateX(0); filter: none; }
+  20%      { transform: translateX(-8px); filter: brightness(0.4) sepia(1) hue-rotate(-30deg) saturate(4); }
+  40%      { transform: translateX(8px); }
+  60%      { transform: translateX(-5px); }
+  80%      { transform: translateX(5px); }
+}
+@keyframes dq-hit-neutral {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); filter: brightness(1.2); }
+}
+
+/* 舞台内のステータス窓に置くゲージは上マージン不要 */
+.enemy-status .gauge-track { margin-top: 0; }
+
+/* 下段:コマンドウィンドウ(記憶=道具コマンド) */
+.battle-command {
+  background: var(--dq-window);
+  border: 4px solid var(--dq-frame);
+  border-radius: 14px;
+  padding: 12px 16px 16px;
+  box-shadow: inset 0 0 0 2px #000, 0 0 0 3px #000, 0 8px 0 rgba(0,0,0,0.55);
+}
+.command-caption {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: var(--dq-cursor);
+}
+
 .gauge-track {
   width: 100%;
-  height: 24px;
-  border: 1px solid var(--gold);
-  background: var(--ink-black);
-  border-radius: 12px;
+  height: 22px;
+  margin-top: 12px;
+  background: #01020a;
+  border: 3px solid var(--dq-frame);
+  border-radius: 6px;
   overflow: hidden;
-  position: relative;
+  box-shadow: inset 0 0 0 2px #000;
 }
 
 .gauge-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--crimson), var(--gold));
-  transition: width 0.4s ease;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--dq-hp) 0, var(--dq-hp) 8px,
+      #2bb03c 8px, #2bb03c 10px
+    );
+  transition: width 0.35s steps(8, end);
 }
 
 .gauge-label {
   display: flex;
   justify-content: space-between;
-  font-family: monospace;
-  margin-top: 4px;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: var(--dq-text-dim);
 }
+#gauge-value { color: var(--dq-hp); }
 
 .negotiation-log {
-  height: 140px;
+  height: 150px;
   overflow-y: auto;
-  border: 1px solid rgba(201, 162, 39, 0.4);
-  padding: 8px 12px;
   margin: 16px 0;
-  background: rgba(0, 0, 0, 0.3);
-  font-size: 0.9rem;
+  padding: 12px 14px;
+  background: #02030f;
+  border: 3px solid var(--dq-frame);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 2px #000;
+  font-size: 0.86rem;
 }
+.negotiation-log p { margin: 0 0 6px; }
+.negotiation-log p:last-child { margin-bottom: 0; }
 
-.negotiation-log p {
-  margin: 4px 0;
-}
-
+/* 記憶断片 = 道具コマンド */
 .fragment-hand {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 10px;
   margin: 16px 0;
 }
 
 .fragment-card {
-  display: flex;
   flex-direction: column;
+  display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding: 12px 8px;
-  background: var(--parchment);
-  color: var(--ink-black);
-  border: 2px solid var(--gold);
-  border-radius: 6px;
   text-align: center;
 }
-
-.fragment-card.is-used {
-  filter: grayscale(1);
-}
+.fragment-card::before { content: none; }
+.fragment-card:hover:not(:disabled) { background: #10123a; }
+.fragment-card.is-used { filter: grayscale(1) brightness(0.6); }
 
 .fragment-seal {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #a94848, var(--crimson) 70%);
-  color: var(--parchment);
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Shippori Mincho', serif;
-  font-size: 0.75rem;
-  border: 1px solid var(--gold);
+  border-radius: 8px;
+  font-size: 0.72rem;
+  color: #05061c;
+  font-weight: bold;
+  background: #b8b8c8;
+  box-shadow: inset 0 0 0 2px #000, 0 0 0 2px #fff;
+  text-shadow: none;
 }
 
 .fragment-title {
-  font-size: 0.75rem;
-  line-height: 1.3;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  color: var(--dq-text);
 }
 
-/* 結果画面 */
+/* 感情タグごとの宝石色 */
+.fragment-tag-喜び   .fragment-seal { background: #ffd23f; }
+.fragment-tag-悲しみ .fragment-seal { background: #4e79f2; color: #fff; }
+.fragment-tag-安心   .fragment-seal { background: #4ecb71; }
+.fragment-tag-恐怖   .fragment-seal { background: #7a4ef2; color: #fff; }
+.fragment-tag-誇り   .fragment-seal { background: #f2913f; }
+.fragment-tag-恥     .fragment-seal { background: #f24e9e; color: #fff; }
+.fragment-tag-愛情   .fragment-seal { background: #f24e5c; color: #fff; }
+.fragment-tag-怒り   .fragment-seal { background: #cb2e2e; color: #fff; }
+
+#btn-negotiation-end {
+  width: 100%;
+  text-align: center;
+  color: var(--dq-danger);
+  border-color: var(--dq-danger);
+}
+
+/* ============================================================
+   結果画面
+   ============================================================ */
+#screen-result { text-align: center; }
 .result-outcome {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 2rem;
+  font-size: 2.2rem;
+  letter-spacing: 0.1em;
+  margin: 18px 0;
+  text-shadow: 2px 2px 0 #000;
 }
+.result-outcome-success { color: var(--dq-hp); }
+.result-outcome-partial { color: var(--dq-cursor); }
+.result-outcome-failure { color: var(--dq-danger); }
+#screen-result #result-gauge { color: var(--dq-hp); }
+#btn-result-back { margin-top: 10px; }
 
-.result-outcome-success {
-  color: var(--muted-green);
+/* ============================================================
+   エンディング画面
+   ============================================================ */
+#screen-ending { text-align: center; padding: 40px 24px; }
+#screen-ending h2 {
+  border: none;
+  color: var(--dq-cursor);
+  font-size: 1.6rem;
 }
-
-.result-outcome-partial {
-  color: var(--gold);
+#screen-ending p {
+  color: var(--dq-text-dim);
+  margin: 14px 0;
 }
+#btn-ending-restart { margin-top: 20px; }
 
-.result-outcome-failure {
-  color: var(--crimson);
+/* ---------- 狭い画面 ---------- */
+@media (max-width: 480px) {
+  #screen-title h1 { font-size: 2rem; }
+  .fragment-hand { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
 }

@@ -1,0 +1,224 @@
+/* ============================================================
+   dq.css — ドラゴンクエスト風 共通UIシステム
+   黒地・白角丸ウィンドウ / ドットフォント / ▶選択カーソル / ▼送り三角
+   全ページ(ゲーム・ログイン・登録)で共有する土台。
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+:root {
+  --dq-bg-core: #0b0e2a;      /* 画面中央のにじむ紺 */
+  --dq-bg-edge: #01020a;      /* 画面外周の黒 */
+  --dq-window: #05061c;       /* ウィンドウ内側の紺黒 */
+  --dq-frame: #ffffff;        /* 白い枠線 */
+  --dq-text: #ffffff;         /* 基本の白文字 */
+  --dq-text-dim: #9aa0c8;     /* 補足のくすみ */
+  --dq-cursor: #ffe14d;       /* ▶ 選択カーソルの黄 */
+  --dq-hp: #37d84a;           /* HPバー的な緑 */
+  --dq-mp: #47a6ff;           /* MPバー的な青 */
+  --dq-danger: #ff5470;       /* 危険・失敗の赤 */
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 35%, var(--dq-bg-core) 0%, var(--dq-bg-edge) 75%),
+    var(--dq-bg-edge);
+  color: var(--dq-text);
+  font-family: 'DotGothic16', 'Courier New', monospace;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  -webkit-font-smoothing: none;
+}
+
+/* うっすらCRT走査線 + ビネット(文字は潰さない極薄) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0)   0px,
+      rgba(0, 0, 0, 0)   2px,
+      rgba(0, 0, 0, 0.10) 3px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+/* ---------- 見出し ---------- */
+h1, h2, h3 {
+  font-family: 'DotGothic16', 'Courier New', monospace;
+  font-weight: 400;
+  color: var(--dq-text);
+  letter-spacing: 0.12em;
+  margin: 0 0 0.6em;
+  text-shadow: 2px 2px 0 #000;
+}
+
+a {
+  color: var(--dq-cursor);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ============================================================
+   ウィンドウ(DQコマンドウィンドウ)
+   黒地に太い白角丸枠。二重線に見えるよう内側に影を1本。
+   ============================================================ */
+.dq-window {
+  position: relative;
+  background: var(--dq-window);
+  border: 4px solid var(--dq-frame);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow:
+    inset 0 0 0 2px #000,          /* 白枠と内容の間の黒い溝 */
+    0 0 0 3px #000,                /* 枠の外側の黒フチ */
+    0 8px 0 rgba(0, 0, 0, 0.55);   /* 立体的な影 */
+  image-rendering: pixelated;
+}
+
+/* ============================================================
+   ボタン / メニュー項目
+   黒ウィンドウ調。ホバー/フォーカスで ▶ カーソルが点滅。
+   ============================================================ */
+button {
+  position: relative;
+  font-family: 'DotGothic16', 'Courier New', monospace;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--dq-text);
+  background: var(--dq-window);
+  border: 3px solid var(--dq-frame);
+  border-radius: 10px;
+  padding: 10px 18px 10px 34px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: inset 0 0 0 2px #000, 0 4px 0 rgba(0, 0, 0, 0.5);
+  transition: transform 0.05s ease;
+}
+
+button::before {
+  content: '▶';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dq-cursor);
+  opacity: 0;
+}
+
+button:hover:not(:disabled)::before,
+button:focus-visible::before {
+  opacity: 1;
+  animation: dq-blink 0.9s steps(1, end) infinite;
+}
+
+button:hover:not(:disabled) {
+  background: #10123a;
+}
+
+button:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: inset 0 0 0 2px #000;
+}
+
+button:focus-visible {
+  outline: none;
+  border-color: var(--dq-cursor);
+}
+
+button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+@keyframes dq-blink {
+  50% { opacity: 0; }
+}
+
+/* ============================================================
+   入力フォーム(ログイン・登録)
+   ============================================================ */
+label {
+  display: block;
+  margin: 0 0 14px;
+  color: var(--dq-text);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  font-family: 'DotGothic16', 'Courier New', monospace;
+  font-size: 1rem;
+  color: var(--dq-text);
+  background: #02030f;
+  border: 3px solid var(--dq-frame);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px #000;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--dq-cursor);
+}
+
+/* ============================================================
+   認証ページ(ログイン/登録)のレイアウト
+   ============================================================ */
+.dq-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  gap: 16px;
+}
+
+.dq-panel {
+  width: 100%;
+  max-width: 420px;
+}
+
+.dq-panel h1 {
+  text-align: center;
+  font-size: 1.6rem;
+  color: var(--dq-cursor);
+  text-shadow: 2px 2px 0 #000, 0 0 10px rgba(255, 225, 77, 0.35);
+}
+
+.dq-panel form button {
+  width: 100%;
+  text-align: center;
+  padding-left: 18px;
+  margin-top: 6px;
+}
+.dq-panel form button::before { left: 24%; }
+
+.dq-msg {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 2px dashed var(--dq-frame);
+  border-radius: 8px;
+  color: var(--dq-cursor);
+  font-size: 0.9rem;
+}
+.dq-msg.is-error { color: var(--dq-danger); border-color: var(--dq-danger); }
+
+.dq-links {
+  text-align: center;
+  font-size: 0.9rem;
+}

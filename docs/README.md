@@ -20,4 +20,4 @@
 | 07 | [第1〜3章コンテンツ投入](07_content-seeding.md) | 完了 |
 | 08 | [AWS EC2デプロイ](08_deploy-aws-ec2.md) | 未着手 |
 | 09 | [通し確認・仕上げ](09_polish-and-review.md) | 未着手 |
-| 10 | [コンテンツ管理用MCPサーバー](10_mcp-content-server.md) | ほぼ完了(Claude Codeへの登録待ち) |
+| 10 | [コンテンツ管理用MCPサーバー](10_mcp-content-server.md) | 完了 |
