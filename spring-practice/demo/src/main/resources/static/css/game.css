@@ -1,0 +1,236 @@
+:root {
+  --ink-black: #12131c;
+  --parchment: #e8dcc0;
+  --gold: #c9a227;
+  --crimson: #8b3a3a;
+  --muted-green: #52836f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.game-body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink-black);
+  color: var(--parchment);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+
+.game-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1, h2, h3 {
+  font-family: 'Shippori Mincho', serif;
+  color: var(--gold);
+}
+
+.screen {
+  display: none;
+}
+
+.screen.is-active {
+  display: block;
+}
+
+button {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  cursor: pointer;
+  background: var(--ink-black);
+  color: var(--parchment);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  padding: 8px 16px;
+}
+
+button:hover:not(:disabled) {
+  background: var(--gold);
+  color: var(--ink-black);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* タイトル画面 */
+#screen-title {
+  text-align: center;
+  padding-top: 20vh;
+}
+
+#screen-title h1 {
+  font-size: 2.2rem;
+  letter-spacing: 0.1em;
+}
+
+/* マップ画面 */
+.district-list {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.district-card {
+  text-align: left;
+  padding: 16px;
+  background: rgba(232, 220, 192, 0.05);
+}
+
+.district-card h3 {
+  margin: 0 0 6px;
+}
+
+.cleared-mark {
+  color: var(--muted-green);
+  font-size: 0.8rem;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+
+/* フィールド画面 */
+.field-hint {
+  color: var(--parchment);
+  opacity: 0.7;
+  font-size: 0.85rem;
+}
+
+.field-grid {
+  display: grid;
+  gap: 2px;
+  margin: 16px 0;
+  background: #000;
+  padding: 2px;
+}
+
+.field-cell {
+  aspect-ratio: 1 / 1;
+  background: rgba(232, 220, 192, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-family: monospace;
+  color: var(--parchment);
+}
+
+.field-cell-npc {
+  background: rgba(139, 58, 58, 0.5);
+  color: var(--parchment);
+}
+
+.field-cell-player {
+  background: var(--gold);
+  color: var(--ink-black);
+  font-weight: bold;
+}
+
+/* 会話画面 */
+.dialogue-box {
+  border: 1px solid var(--gold);
+  padding: 16px;
+  margin: 16px 0;
+  background: rgba(232, 220, 192, 0.05);
+}
+
+/* 交渉パズル画面 */
+.gauge-track {
+  width: 100%;
+  height: 24px;
+  border: 1px solid var(--gold);
+  background: var(--ink-black);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--crimson), var(--gold));
+  transition: width 0.4s ease;
+}
+
+.gauge-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: monospace;
+  margin-top: 4px;
+}
+
+.negotiation-log {
+  height: 140px;
+  overflow-y: auto;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  padding: 8px 12px;
+  margin: 16px 0;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 0.9rem;
+}
+
+.negotiation-log p {
+  margin: 4px 0;
+}
+
+.fragment-hand {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.fragment-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: var(--parchment);
+  color: var(--ink-black);
+  border: 2px solid var(--gold);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.fragment-card.is-used {
+  filter: grayscale(1);
+}
+
+.fragment-seal {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #a94848, var(--crimson) 70%);
+  color: var(--parchment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 0.75rem;
+  border: 1px solid var(--gold);
+}
+
+.fragment-title {
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+/* 結果画面 */
+.result-outcome {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 2rem;
+}
+
+.result-outcome-success {
+  color: var(--muted-green);
+}
+
+.result-outcome-partial {
+  color: var(--gold);
+}
+
+.result-outcome-failure {
+  color: var(--crimson);
+}

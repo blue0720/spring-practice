@@ -13,9 +13,9 @@
 |---|---|---|
 | 01 | [プロジェクト初期化・DB接続確認](01_project-setup-and-db-connection.md) | 完了 |
 | 02 | [JPAエンティティ設計・実装](02_jpa-entities.md) | 完了 |
-| 03 | [Spring Securityによる会員機能](03_spring-security-auth.md) | 未着手 |
-| 04 | [ゲーム画面へのMVPロジック移植](04_game-screen-mvp-port.md) | 未着手 |
-| 05 | [進行状況の保存・読込API](05_progress-save-api.md) | 未着手 |
+| 03 | [Spring Securityによる会員機能](03_spring-security-auth.md) | 完了 |
+| 04 | [ゲーム画面へのMVPロジック移植](04_game-screen-mvp-port.md) | 完了 |
+| 05 | [進行状況の保存・読込API](05_progress-save-api.md) | 完了 |
 | 06 | [管理者機能(コンテンツCRUD)](06_admin-content-crud.md) | 未着手 |
 | 07 | [第1〜3章コンテンツ投入](07_content-seeding.md) | 未着手 |
 | 08 | [AWS EC2デプロイ](08_deploy-aws-ec2.md) | 未着手 |

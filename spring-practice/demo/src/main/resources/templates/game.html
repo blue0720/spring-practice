@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>忘却の取引</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho&family=Zen+Kaku+Gothic+New&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/game.css}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+<body class="game-body">
+<div class="game-container">
+
+    <header>
+        <p>ログイン中: <span sec:authentication="name"></span>
+            <form id="logout-form" th:action="@{/logout}" method="post" style="display:inline">
+                <button type="submit">ログアウト</button>
+            </form>
+        </p>
+    </header>
+
+    <!-- タイトル画面 -->
+    <section id="screen-title" class="screen">
+        <h1>忘却の取引</h1>
+        <p>記憶を売買する商人ヴィオラの物語。</p>
+        <button type="button" id="btn-start">はじめる</button>
+    </section>
+
+    <!-- マップ画面(区画選択) -->
+    <section id="screen-map" class="screen">
+        <h2>灰塵市 — 区画を選ぶ</h2>
+        <div id="map-district-list" class="district-list"></div>
+        <button type="button" id="btn-goto-ending" hidden>物語を終える</button>
+    </section>
+
+    <!-- フィールド画面(自由歩行) -->
+    <section id="screen-field" class="screen">
+        <h2 id="field-district-name"></h2>
+        <p class="field-hint">方向キーで移動し、NPCに近づいてください。</p>
+        <div id="field-grid" class="field-grid"></div>
+    </section>
+
+    <!-- 会話画面 -->
+    <section id="screen-dialogue" class="screen">
+        <h2 id="dialogue-npc-name"></h2>
+        <div class="dialogue-box">
+            <p id="dialogue-text"></p>
+        </div>
+        <button type="button" id="btn-negotiate">交渉を始める</button>
+        <button type="button" id="btn-dialogue-back">マップに戻る</button>
+    </section>
+
+    <!-- 交渉パズル画面 -->
+    <section id="screen-negotiation" class="screen">
+        <h2 id="negotiation-npc-name"></h2>
+        <div class="gauge-track">
+            <div id="gauge-fill" class="gauge-fill"></div>
+        </div>
+        <div class="gauge-label">
+            <span>信頼度</span>
+            <span><span id="gauge-value"></span> / 100</span>
+        </div>
+        <div id="negotiation-log" class="negotiation-log"></div>
+        <div id="fragment-hand" class="fragment-hand"></div>
+        <button type="button" id="btn-negotiation-end">ここで交渉を終える</button>
+    </section>
+
+    <!-- 結果画面 -->
+    <section id="screen-result" class="screen">
+        <h2>交渉結果</h2>
+        <p class="result-outcome" id="result-outcome"></p>
+        <p>最終信頼度: <span id="result-gauge"></span> / 100</p>
+        <button type="button" id="btn-result-back">マップに戻る</button>
+    </section>
+
+    <!-- エンディング画面 -->
+    <section id="screen-ending" class="screen">
+        <h2>終章</h2>
+        <p>灰塵市でのすべての取引を終え、ヴィオラは静かに歩き出す。</p>
+        <p>自分が何を失い、何を選び取ったのか——その答えは、まだ言葉にならない。</p>
+        <button type="button" id="btn-ending-restart">タイトルに戻る</button>
+    </section>
+
+</div>
+<script th:src="@{/js/game-data.js}"></script>
+<script th:src="@{/js/game.js}"></script>
+</body>
+</html>

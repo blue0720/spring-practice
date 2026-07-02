@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +14,9 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,6 +43,12 @@ public class GameProgress {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    // 交渉済みの区画ID(例: slum/guild/backalley)。コンテンツ投入前はクライアント側の固定IDを使用する。
+    @ElementCollection
+    @CollectionTable(name = "game_progress_cleared_district", joinColumns = @JoinColumn(name = "game_progress_id"))
+    @Column(name = "district_id", nullable = false)
+    private Set<String> clearedDistrictIds = new HashSet<>();
 
     @OneToMany(mappedBy = "gameProgress")
     private List<CompletedEncounter> completedEncounters = new ArrayList<>();

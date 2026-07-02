@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CompletedEncounterRepository extends JpaRepository<CompletedEncounter, Long> {
 
     List<CompletedEncounter> findByGameProgressId(Long gameProgressId);
+
+    List<CompletedEncounter> findByGameProgressIdOrderByPlayedAtDesc(Long gameProgressId);
 }
